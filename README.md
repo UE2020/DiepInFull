@@ -66,11 +66,11 @@ We'll begin with updates. Diep.io entities are essentially arrays of numbers. Wh
 
 ```js
 /* --snip-- */
-let isCreation = buf.get_u8() != 0;
+const isCreation = buf.get_u8() != 0;
 if (!isCreation) {
   // update
   let index = -1;
-  let mut currentJump = 0;
+  let currentJump = 0;
   
   buf.get_vu(); // idk why, but without this nothing works
 

@@ -37,4 +37,5 @@ Naturally, a list of all the deletions comes after the delete count. Entity IDs 
 for (let i = 0; i < deleteCount; i++) {
   console.log(' Hash:', buf.get_vu());
   console.log(' ID:', buf.get_vu());
-}```
+}
+```

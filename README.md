@@ -79,7 +79,14 @@ if (!isCreation) {
     if (currentJump == 0) break;
     index += currentJump;
     // `index` is our index! After the jump comes the relevant field data.
-    someMagicFieldReader(buf, index);
+    switch (index) {
+      case 10: buf.get_vi(); break; // angle
+      case 17: buf.get_vi(); break; // Y pos
+      case 65: buf.get_vi(); break; // X pos
+      case 61: buf.get_float(); break; // Player Y
+      case 23: buf.get_float(); break; // Player X
+      // etc.  
+    }
   }
 }
 ```

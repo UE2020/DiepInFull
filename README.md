@@ -22,13 +22,13 @@ let typ = buf.get_u8();
 After the packet header comes the "game tick" encoded as a varuint. The game tick is the amount of server-side ticks have passed since the arena came online. As a security mechanism (security-by-obscurity), the game tick must be XOR'd by 4061406 as of the latest build.
 
 ```js
-let gameTick = buf.get_vu() ^ 4061406;
+let gameTick = buf.get_vu() ^ 16529162;
 ```
 
 0x00 packets update the game state using 3 mechanisms: updates, deletions, and creations. After the packet header is a varuint which represents the amount of deletions contained in that packet. Just like the game tick, the delete count must also be XOR'd.
 
 ```js
-let deleteCount = buf.get_vu() ^ ((game_tick + 80) & 127); // dw about complexity
+let deleteCount = buf.get_vu() ^ ((game_tick + 24) & 127); // dw about complexity
 ```
 
 Naturally, a list of all the deletions comes after the delete count. Entity idenfitiers in Diep.io are represented as two varuints: a hash and an ID. Reading all the deletions is simple:
@@ -43,7 +43,7 @@ for (let i = 0; i < deleteCount; i++) {
 After the deletions comes what ABCxff calls the "upcreate count". For some unknown reason, diep lumps updates and creations together, distinguished by a boolean byte. As with the other values, the upcreate count must be XOR'd.
 
 ```js
-let upcreateCount = buf.get_vu() ^ (game_tick + 120) & 127; // I found all of these XOR's in the decompiled wasm2js of Diep.io. Coercing Diep.io scripters into giving me tips also helped.
+let upcreateCount = buf.get_vu() ^ (game_tick + 55) & 127; // I found all of these XOR's in the decompiled wasm2js of Diep.io. Coercing Diep.io scripters into giving me tips also helped.
 ```
 
 Now comes the hard part. Just like with the deletions, every upcreate begins with an idenfitier.
